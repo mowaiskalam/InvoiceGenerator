@@ -215,6 +215,9 @@
     <Compile Include="tblUser.cs">
       <DependentUpon>InvoiceEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="VwDescription.cs">
+      <DependentUpon>InvoiceEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="VwInvoice.cs">
       <DependentUpon>InvoiceEntities.tt</DependentUpon>
     </Compile>

@@ -28,6 +28,10 @@
           <Property Name="DescriptionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CustomerID" Type="int" />
           <Property Name="Description" Type="varchar(max)" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="CreatedOn" Type="datetime" />
+          <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="Code" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="tblInvoice">
           <Key>
@@ -40,9 +44,9 @@
           <Property Name="GST" Type="decimal" Precision="18" Scale="2" />
           <Property Name="TotalAmount" Type="decimal" Precision="18" Scale="2" />
           <Property Name="Terms" Type="varchar(max)" />
-          <Property Name="IsPaid" Type="bit" />
           <Property Name="CreatedOn" Type="datetime" />
           <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="IsPaid" Type="bit" />
         </EntityType>
         <EntityType Name="tblInvoiceDetail">
           <Key>
@@ -64,6 +68,26 @@
           <Property Name="Username" Type="varchar" MaxLength="50" />
           <Property Name="Password" Type="varchar" MaxLength="50" />
           <Property Name="UserRole" Type="varchar" MaxLength="50" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="CreatedOn" Type="datetime" />
+          <Property Name="ModifiedOn" Type="datetime" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'CustomerInvoiceDB.dbo.VwDescription' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="VwDescription">
+          <Key>
+            <PropertyRef Name="DescriptionID" />
+          </Key>
+          <Property Name="CustomerName" Type="varchar" MaxLength="50" />
+          <Property Name="ContactNo" Type="varchar" MaxLength="50" />
+          <Property Name="Email" Type="varchar" MaxLength="50" />
+          <Property Name="Address" Type="varchar" MaxLength="255" />
+          <Property Name="BusinessName" Type="varchar" MaxLength="50" />
+          <Property Name="BusinessAddress" Type="varchar" MaxLength="255" />
+          <Property Name="BusinessWebsite" Type="varchar" MaxLength="50" />
+          <Property Name="DescriptionID" Type="int" Nullable="false" />
+          <Property Name="CustomerID" Type="int" />
+          <Property Name="Description" Type="varchar(max)" />
           <Property Name="IsActive" Type="bit" />
           <Property Name="CreatedOn" Type="datetime" />
           <Property Name="ModifiedOn" Type="datetime" />
@@ -186,6 +210,23 @@ warning 6002: The table/view 'CustomerInvoiceDB.dbo.VwInvoiceReport' does not ha
           <EntitySet Name="tblInvoice" EntityType="Self.tblInvoice" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblInvoiceDetail" EntityType="Self.tblInvoiceDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblUser" EntityType="Self.tblUser" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VwDescription" EntityType="Self.VwDescription" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [VwDescription].[CustomerName] AS [CustomerName], 
+    [VwDescription].[ContactNo] AS [ContactNo], 
+    [VwDescription].[Email] AS [Email], 
+    [VwDescription].[Address] AS [Address], 
+    [VwDescription].[BusinessName] AS [BusinessName], 
+    [VwDescription].[BusinessAddress] AS [BusinessAddress], 
+    [VwDescription].[BusinessWebsite] AS [BusinessWebsite], 
+    [VwDescription].[DescriptionID] AS [DescriptionID], 
+    [VwDescription].[CustomerID] AS [CustomerID], 
+    [VwDescription].[Description] AS [Description], 
+    [VwDescription].[IsActive] AS [IsActive], 
+    [VwDescription].[CreatedOn] AS [CreatedOn], 
+    [VwDescription].[ModifiedOn] AS [ModifiedOn]
+    FROM [dbo].[VwDescription] AS [VwDescription]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="VwInvoice" EntityType="Self.VwInvoice" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [VwInvoice].[CustomerName] AS [CustomerName], 
@@ -268,12 +309,18 @@ warning 6002: The table/view 'CustomerInvoiceDB.dbo.VwInvoiceReport' does not ha
       <Schema Namespace="InvoiceModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="InvoiceEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="tblCustomer" EntityType="InvoiceModel.tblCustomer" />
+          <EntitySet Name="tblDescription" EntityType="InvoiceModel.tblDescription" />
           <EntitySet Name="tblInvoice" EntityType="InvoiceModel.tblInvoice" />
           <EntitySet Name="tblInvoiceDetail" EntityType="InvoiceModel.tblInvoiceDetail" />
           <EntitySet Name="tblUser" EntityType="InvoiceModel.tblUser" />
+          <EntitySet Name="VwDescription" EntityType="InvoiceModel.VwDescription" />
           <EntitySet Name="VwInvoice" EntityType="InvoiceModel.VwInvoice" />
           <EntitySet Name="VwInvoiceList" EntityType="InvoiceModel.VwInvoiceList" />
           <EntitySet Name="VwInvoiceReport" EntityType="InvoiceModel.VwInvoiceReport" />
+          <AssociationSet Name="FK_tblDescription_tblCustomer" Association="InvoiceModel.FK_tblDescription_tblCustomer">
+            <End Role="tblCustomer" EntitySet="tblCustomer" />
+            <End Role="tblDescription" EntitySet="tblDescription" />
+          </AssociationSet>
           <AssociationSet Name="FK_tblInvoice_tblCustomer" Association="InvoiceModel.FK_tblInvoice_tblCustomer">
             <End Role="tblCustomer" EntitySet="tblCustomer" />
             <End Role="tblInvoice" EntitySet="tblInvoice" />
@@ -281,11 +328,6 @@ warning 6002: The table/view 'CustomerInvoiceDB.dbo.VwInvoiceReport' does not ha
           <AssociationSet Name="FK_tblInvoiceDetail_tblInvoice" Association="InvoiceModel.FK_tblInvoiceDetail_tblInvoice">
             <End Role="tblInvoice" EntitySet="tblInvoice" />
             <End Role="tblInvoiceDetail" EntitySet="tblInvoiceDetail" />
-          </AssociationSet>
-          <EntitySet Name="tblDescription" EntityType="InvoiceModel.tblDescription" />
-          <AssociationSet Name="FK_tblDescription_tblCustomer" Association="InvoiceModel.FK_tblDescription_tblCustomer">
-            <End Role="tblCustomer" EntitySet="tblCustomer" />
-            <End Role="tblDescription" EntitySet="tblDescription" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="tblCustomer">
@@ -303,8 +345,21 @@ warning 6002: The table/view 'CustomerInvoiceDB.dbo.VwInvoiceReport' does not ha
           <Property Name="IsActive" Type="Boolean" />
           <Property Name="CreatedOn" Type="DateTime" Precision="3" />
           <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="tblInvoice" Relationship="InvoiceModel.FK_tblInvoice_tblCustomer" FromRole="tblCustomer" ToRole="tblInvoice" />
           <NavigationProperty Name="tblDescription" Relationship="InvoiceModel.FK_tblDescription_tblCustomer" FromRole="tblCustomer" ToRole="tblDescription" />
+          <NavigationProperty Name="tblInvoice" Relationship="InvoiceModel.FK_tblInvoice_tblCustomer" FromRole="tblCustomer" ToRole="tblInvoice" />
+        </EntityType>
+        <EntityType Name="tblDescription">
+          <Key>
+            <PropertyRef Name="DescriptionID" />
+          </Key>
+          <Property Name="DescriptionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerID" Type="Int32" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="tblCustomer" Relationship="InvoiceModel.FK_tblDescription_tblCustomer" FromRole="tblDescription" ToRole="tblCustomer" />
+          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="tblInvoice">
           <Key>
@@ -319,9 +374,9 @@ warning 6002: The table/view 'CustomerInvoiceDB.dbo.VwInvoiceReport' does not ha
           <Property Name="Terms" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="CreatedOn" Type="DateTime" Precision="3" />
           <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="IsPaid" Type="Boolean" />
           <NavigationProperty Name="tblCustomer" Relationship="InvoiceModel.FK_tblInvoice_tblCustomer" FromRole="tblInvoice" ToRole="tblCustomer" />
           <NavigationProperty Name="tblInvoiceDetail" Relationship="InvoiceModel.FK_tblInvoiceDetail_tblInvoice" FromRole="tblInvoice" ToRole="tblInvoiceDetail" />
-          <Property Name="IsPaid" Type="Boolean" />
         </EntityType>
         <EntityType Name="tblInvoiceDetail">
           <Key>
@@ -344,6 +399,24 @@ warning 6002: The table/view 'CustomerInvoiceDB.dbo.VwInvoiceReport' does not ha
           <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="UserRole" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="VwDescription">
+          <Key>
+            <PropertyRef Name="DescriptionID" />
+          </Key>
+          <Property Name="CustomerName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ContactNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Address" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="BusinessName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BusinessAddress" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="BusinessWebsite" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DescriptionID" Type="Int32" Nullable="false" />
+          <Property Name="CustomerID" Type="Int32" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="IsActive" Type="Boolean" />
           <Property Name="CreatedOn" Type="DateTime" Precision="3" />
           <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
@@ -418,6 +491,18 @@ warning 6002: The table/view 'CustomerInvoiceDB.dbo.VwInvoiceReport' does not ha
           <Property Name="TotalAmount" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="Amount" Type="Decimal" Precision="18" Scale="2" />
         </EntityType>
+        <Association Name="FK_tblDescription_tblCustomer">
+          <End Type="InvoiceModel.tblCustomer" Role="tblCustomer" Multiplicity="0..1" />
+          <End Type="InvoiceModel.tblDescription" Role="tblDescription" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCustomer">
+              <PropertyRef Name="CustomerID" />
+            </Principal>
+            <Dependent Role="tblDescription">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tblInvoice_tblCustomer">
           <End Type="InvoiceModel.tblCustomer" Role="tblCustomer" Multiplicity="0..1" />
           <End Type="InvoiceModel.tblInvoice" Role="tblInvoice" Multiplicity="*" />
@@ -442,27 +527,6 @@ warning 6002: The table/view 'CustomerInvoiceDB.dbo.VwInvoiceReport' does not ha
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="tblDescription">
-          <Key>
-            <PropertyRef Name="DescriptionID" />
-          </Key>
-          <Property Name="DescriptionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CustomerID" Type="Int32" />
-          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="tblCustomer" Relationship="InvoiceModel.FK_tblDescription_tblCustomer" FromRole="tblDescription" ToRole="tblCustomer" />
-        </EntityType>
-        <Association Name="FK_tblDescription_tblCustomer">
-          <End Type="InvoiceModel.tblCustomer" Role="tblCustomer" Multiplicity="0..1" />
-          <End Type="InvoiceModel.tblDescription" Role="tblDescription" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblCustomer">
-              <PropertyRef Name="CustomerID" />
-            </Principal>
-            <Dependent Role="tblDescription">
-              <PropertyRef Name="CustomerID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -483,6 +547,19 @@ warning 6002: The table/view 'CustomerInvoiceDB.dbo.VwInvoiceReport' does not ha
                 <ScalarProperty Name="ContactNo" ColumnName="ContactNo" />
                 <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
                 <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblDescription">
+            <EntityTypeMapping TypeName="InvoiceModel.tblDescription">
+              <MappingFragment StoreEntitySet="tblDescription">
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="DescriptionID" ColumnName="DescriptionID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -525,6 +602,25 @@ warning 6002: The table/view 'CustomerInvoiceDB.dbo.VwInvoiceReport' does not ha
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="Username" ColumnName="Username" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VwDescription">
+            <EntityTypeMapping TypeName="InvoiceModel.VwDescription">
+              <MappingFragment StoreEntitySet="VwDescription">
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="DescriptionID" ColumnName="DescriptionID" />
+                <ScalarProperty Name="BusinessWebsite" ColumnName="BusinessWebsite" />
+                <ScalarProperty Name="BusinessAddress" ColumnName="BusinessAddress" />
+                <ScalarProperty Name="BusinessName" ColumnName="BusinessName" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="ContactNo" ColumnName="ContactNo" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -594,15 +690,6 @@ warning 6002: The table/view 'CustomerInvoiceDB.dbo.VwInvoiceReport' does not ha
                 <ScalarProperty Name="ContactNo" ColumnName="ContactNo" />
                 <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
                 <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tblDescription">
-            <EntityTypeMapping TypeName="InvoiceModel.tblDescription">
-              <MappingFragment StoreEntitySet="tblDescription">
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
-                <ScalarProperty Name="DescriptionID" ColumnName="DescriptionID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

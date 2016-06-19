@@ -109,6 +109,7 @@ namespace InvoiceGenerator
             using (InvoiceEntities cntx = new InvoiceEntities())
             {
                 var Query = (from c in cntx.tblDescription where c.DescriptionID == ID select c).FirstOrDefault();
+                txt_Code.Text = Query.Code;
                 txt_Description.Text = Query.Description;
                 Cmb_Customer.SelectedValue = Query.CustomerID.Value;
             }
@@ -119,6 +120,7 @@ namespace InvoiceGenerator
             {
 
                 var objDes = (from c in cntx.tblDescription where c.DescriptionID == ID select c).FirstOrDefault();
+                objDes.Code = txt_Code.Text;
                 objDes.Description = txt_Description.Text;
                 objDes.CustomerID = Convert.ToInt32(Cmb_Customer.SelectedValue);
 
@@ -136,7 +138,7 @@ namespace InvoiceGenerator
             using (InvoiceEntities cntx = new InvoiceEntities())
             {
                 tblDescription objDes = new tblDescription();
-
+                objDes.Code = txt_Code.Text;
                 objDes.Description = txt_Description.Text;
                 objDes.CustomerID = Convert.ToInt32(Cmb_Customer.SelectedValue);
 
@@ -153,7 +155,7 @@ namespace InvoiceGenerator
 
         private void Clear()
         {
-
+            txt_Code.Text = "";
             txt_Description.Text = "";
             ID = 0;
         }

@@ -5,17 +5,18 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="b885f1eefd5d474d84944df7599f5a37" Name="Diagram1">
-        <EntityTypeShape EntityType="InvoiceModel.tblCustomer" Width="1.5" PointX="0.75" PointY="1" />
+        <EntityTypeShape EntityType="InvoiceModel.tblCustomer" Width="1.5" PointX="0.75" PointY="2.625" />
+        <EntityTypeShape EntityType="InvoiceModel.tblDescription" Width="1.5" PointX="3" PointY="5.25" />
         <EntityTypeShape EntityType="InvoiceModel.tblInvoice" Width="1.5" PointX="3" PointY="1.125" />
-        <EntityTypeShape EntityType="InvoiceModel.tblInvoiceDetail" Width="1.5" PointX="5.25" PointY="1.375" />
-        <EntityTypeShape EntityType="InvoiceModel.tblUser" Width="1.5" PointX="0.75" PointY="5.75" />
-        <EntityTypeShape EntityType="InvoiceModel.VwInvoice" Width="1.5" PointX="2.75" PointY="5.75" />
-        <EntityTypeShape EntityType="InvoiceModel.VwInvoiceList" Width="1.5" PointX="5.75" PointY="4.75" />
-        <EntityTypeShape EntityType="InvoiceModel.VwInvoiceReport" Width="1.5" PointX="7.75" PointY="0.75" />
+        <EntityTypeShape EntityType="InvoiceModel.tblInvoiceDetail" Width="1.5" PointX="5.25" PointY="1.5" />
+        <EntityTypeShape EntityType="InvoiceModel.tblUser" Width="1.5" PointX="5.75" PointY="5.75" />
+        <EntityTypeShape EntityType="InvoiceModel.VwDescription" Width="1.5" PointX="7.75" PointY="0.75" />
+        <EntityTypeShape EntityType="InvoiceModel.VwInvoice" Width="1.5" PointX="7.75" PointY="5.75" />
+        <EntityTypeShape EntityType="InvoiceModel.VwInvoiceList" Width="1.5" PointX="0.75" PointY="8.75" />
+        <EntityTypeShape EntityType="InvoiceModel.VwInvoiceReport" Width="1.5" PointX="2.75" PointY="8.75" />
+        <AssociationConnector Association="InvoiceModel.FK_tblDescription_tblCustomer" />
         <AssociationConnector Association="InvoiceModel.FK_tblInvoice_tblCustomer" />
         <AssociationConnector Association="InvoiceModel.FK_tblInvoiceDetail_tblInvoice" />
-        <EntityTypeShape EntityType="InvoiceModel.tblDescription" Width="1.5" PointX="3" PointY="11.875" />
-        <AssociationConnector Association="InvoiceModel.FK_tblDescription_tblCustomer" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

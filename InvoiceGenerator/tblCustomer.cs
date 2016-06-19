@@ -17,8 +17,8 @@ namespace InvoiceGenerator
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public tblCustomer()
         {
-            this.tblInvoice = new HashSet<tblInvoice>();
             this.tblDescription = new HashSet<tblDescription>();
+            this.tblInvoice = new HashSet<tblInvoice>();
         }
     
         public int CustomerID { get; set; }
@@ -34,8 +34,8 @@ namespace InvoiceGenerator
         public Nullable<System.DateTime> ModifiedOn { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tblInvoice> tblInvoice { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblDescription> tblDescription { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblInvoice> tblInvoice { get; set; }
     }
 }

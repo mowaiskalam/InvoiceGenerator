@@ -162,7 +162,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>Company: </Value>
+                <Value>Address: </Value>
                 <Style>
                   <FontWeight>Bold</FontWeight>
                 </Style>
@@ -911,7 +911,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox15</rd:DefaultName>
-        <Top>2.09181in</Top>
+        <Top>2.32931in</Top>
         <Left>6.94688in</Left>
         <Height>0.23333in</Height>
         <Width>1.58646in</Width>
@@ -1656,6 +1656,38 @@
           </TopBorder>
         </Style>
       </Rectangle>
+      <Textbox Name="Textbox41">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>Email: info@ozwebguru.com.au</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Right</TextAlign>
+            </Style>
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox15</rd:DefaultName>
+        <Top>2.09459in</Top>
+        <Left>6.44898in</Left>
+        <Height>0.22222in</Height>
+        <Width>2.0802in</Width>
+        <ZIndex>21</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
     </ReportItems>
     <Height>7.27709in</Height>
     <Style />

@@ -51,7 +51,7 @@ namespace InvoiceGenerator
                 }
                 else if (e.ColumnIndex == 1)
                 {
-                    if (MessageBox.Show("Do you want to Delete this record. Confirm?", "Alet", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    if (MessageBox.Show("Do you want to Delete this record. Confirm?", "Alert", MessageBoxButtons.YesNo) == DialogResult.Yes)
                     {
                         frmInvoice.ID = Convert.ToInt32(Grid_InvoiceList.CurrentRow.Cells["InvoiceID"].Value);
                         DeleteData(frmInvoice.ID);
@@ -73,7 +73,7 @@ namespace InvoiceGenerator
 
                     if (!UserSession.ShowPaidInvoice)
                     {
-                        string fileName = DateTime.Now.Millisecond+" - "+objtblInvoice.tblCustomer.CustomerName + " - Invoice.pdf";
+                        string fileName = DateTime.Now.ToString("yyyyMMddHHmmss")+" - "+objtblInvoice.tblCustomer.CustomerName + " - Invoice.pdf";
                         CreatePDF(fileName, ID);
 
                         Email objEmail = new Email();
@@ -152,8 +152,8 @@ namespace InvoiceGenerator
             viewer.ProcessingMode = ProcessingMode.Local;
             viewer.LocalReport.ReportPath = @"../../Report/CustomerInvoice.rdlc";
             viewer.LocalReport.DataSources.Add(objReports);
-
-            byte[] bytes = viewer.LocalReport.Render("PDF", null, out mimeType, out encoding, out extension, out streamIds, out warnings);
+            viewer.LocalReport.Refresh();
+            byte[] bytes = viewer.LocalReport.Render("PDF");
 
             System.IO.File.WriteAllBytes(fileName, bytes);
             // Now that you have all the bytes representing the PDF report, buffer it and send it to the client.

@@ -26,12 +26,13 @@ namespace InvoiceGenerator
         }
     
         public virtual DbSet<tblCustomer> tblCustomer { get; set; }
+        public virtual DbSet<tblDescription> tblDescription { get; set; }
         public virtual DbSet<tblInvoice> tblInvoice { get; set; }
         public virtual DbSet<tblInvoiceDetail> tblInvoiceDetail { get; set; }
         public virtual DbSet<tblUser> tblUser { get; set; }
+        public virtual DbSet<VwDescription> VwDescription { get; set; }
         public virtual DbSet<VwInvoice> VwInvoice { get; set; }
         public virtual DbSet<VwInvoiceList> VwInvoiceList { get; set; }
         public virtual DbSet<VwInvoiceReport> VwInvoiceReport { get; set; }
-        public virtual DbSet<tblDescription> tblDescription { get; set; }
     }
 }

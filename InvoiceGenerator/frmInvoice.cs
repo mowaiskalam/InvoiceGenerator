@@ -57,8 +57,12 @@ namespace InvoiceGenerator
                 //Create the new row
                 DataRow row = CurrentData.NewRow();
 
+                InvoiceEntities db = new InvoiceEntities();
+                int _desId = Convert.ToInt32(cmbDescription.SelectedValue);
+                tblDescription objTblDescription = db.tblDescription.Where(col => col.DescriptionID == _desId).FirstOrDefault();
+
                 row[0] = "0";
-                row[1] = cmbDescription.Text;
+                row[1] = objTblDescription.Description;
                 row[2] = dtp_StartDate.Value.ToShortDateString();
                 row[3] = dtp_EndDate.Value.ToShortDateString();
                 row[4] = "$ "+ txt_Amount.Text;
@@ -152,7 +156,7 @@ namespace InvoiceGenerator
             {
                 int CustomerID = Convert.ToInt32(Cmb_Customer.SelectedValue);
                 var Query = from a in cntx.tblDescription where a.CustomerID == CustomerID select a;
-                cmbDescription.DisplayMember = "Description";
+                cmbDescription.DisplayMember = "Code";
                 cmbDescription.ValueMember = "DescriptionID";
                 cmbDescription.DataSource = Query.ToList();
             }
